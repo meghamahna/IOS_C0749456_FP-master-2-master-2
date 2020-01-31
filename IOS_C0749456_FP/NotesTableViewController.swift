@@ -129,7 +129,7 @@ class NotesTableViewController: UITableViewController {
        let destination = segue.destination as! NotesViewController
        //destination.taskTable = self
        let i = (self.tableView.indexPathForSelectedRow?.row)!
-       destination.editNotes = notes[i]
+       destination.editNotes = filteredNotes[i]
        
    }
    else if (segue.identifier == "AddNoteSegue") {
@@ -155,6 +155,7 @@ class NotesTableViewController: UITableViewController {
         fetchRequest.predicate = mainCategoryPradicate
         do {
             filteredNotes = try managedContext.fetch(fetchRequest)
+            notes = try managedContext.fetch(fetchRequest)
             self.tableView.reloadData()
         } catch {
             print("cannot fetch from database")

@@ -11,13 +11,21 @@ import CoreData
 
 class CategoriesTableViewController: UITableViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
  
     var categories = [Categories]()
+    var filteredCategories = [Categories]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      
+        loadCoreData()
+        filteredCategories = categories
+        searchBar.delegate = self
+        
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -34,13 +42,13 @@ class CategoriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return categories.count
+        return filteredCategories.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let category = categories[indexPath.row]
+        let category = filteredCategories[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell",for: indexPath)
         cell.textLabel?.text = category.value(forKeyPath: "name") as? String
         return cell
@@ -65,6 +73,7 @@ class CategoriesTableViewController: UITableViewController {
         }
         let managedContext = appDelegate.persistentContainer.viewContext
         managedContext.delete(self.categories[indexPath.row])
+        filteredCategories.remove(at: indexPath.row)
         do{
             try managedContext.save()
             loadCoreData()
@@ -133,12 +142,12 @@ class CategoriesTableViewController: UITableViewController {
         guard (UIApplication.shared.delegate as? AppDelegate) != nil else {
         return
       }
-      let entity = NSEntityDescription.entity(forEntityName:"Categories",in: managedContext)!
-        
+//      let entity = NSEntityDescription.entity(forEntityName:"Categories",in: managedContext)!
+//
       let category = Categories(context: self.managedContext)
       category.name = name
       categories.append(category)
-        
+      filteredCategories.append(category)
       do {
         try managedContext.save()
       }
@@ -152,7 +161,9 @@ class CategoriesTableViewController: UITableViewController {
      {
         
         do{
+             //filteredCategories = try managedContext.fetch(request)
              categories = try managedContext.fetch(request)
+            filteredCategories = categories
          }
          
          catch
@@ -174,11 +185,23 @@ class CategoriesTableViewController: UITableViewController {
     {
         let destination = segue.destination as! NotesTableViewController
         if let indexpath = tableView.indexPathForSelectedRow{
-            destination.mainCategory = categories[indexpath.row]
+            destination.mainCategory = filteredCategories[indexpath.row]
         }
 
     }
     
         
 
+}
+
+extension CategoriesTableViewController: UISearchBarDelegate{
+
+func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    
+    filteredCategories = searchText.isEmpty ? categories : categories.filter({ (item: Categories) -> Bool in
+        return item.name!.range(of: searchText, options: .caseInsensitive) != nil
+    })
+    
+    tableView.reloadData()
+  }
 }
