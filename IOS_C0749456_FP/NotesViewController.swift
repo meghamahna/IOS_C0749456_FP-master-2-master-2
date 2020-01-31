@@ -30,6 +30,7 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
 //    let managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
  
    
+    @IBOutlet weak var mapButton: UIBarButtonItem!
     var editNotes: Notes?
     var userIsEditing =  true
     var mainCategory : Categories?
@@ -41,6 +42,8 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
         findCurrentLocation()
         latitudeLabel.isHidden = true
         longitudeLabel.isHidden = true
+        mapButton.isEnabled = false
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
@@ -52,6 +55,7 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
             longitude.text = String(editNotes!.longitude)
             latitudeLabel.isHidden = false
             longitudeLabel.isHidden = false
+            mapButton.isEnabled = true
             
         }
         else {

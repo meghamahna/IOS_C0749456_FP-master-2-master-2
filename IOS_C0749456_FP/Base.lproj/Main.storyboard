@@ -201,6 +201,7 @@
                         <outlet property="latitudeLabel" destination="pzp-wp-jsj" id="ohQ-4M-TOD"/>
                         <outlet property="longitude" destination="iwC-lr-gFa" id="jjy-Xt-P9x"/>
                         <outlet property="longitudeLabel" destination="1Xs-3w-Uwc" id="0n1-1d-Cdd"/>
+                        <outlet property="mapButton" destination="Kc6-27-idT" id="Bp4-uF-op4"/>
                         <outlet property="titletext" destination="3x4-Sc-YSR" id="L5A-bL-bPv"/>
                     </connections>
                 </viewController>

@@ -27,7 +27,7 @@ class NotesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //loadCoreNotes()
+        loadCoreNotes()
         filteredNotes = notes
         searchBar.delegate = self
         // Uncomment the following line to preserve selection between presentations
@@ -49,14 +49,14 @@ class NotesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return notes.count
+        return filteredNotes.count
     }
 
     
     
      
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let note = notes[indexPath.row]
+        let note = filteredNotes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell")
         cell?.textLabel?.text = note.title!
         cell?.detailTextLabel?.text = "\(note.date!)"
@@ -81,6 +81,7 @@ class NotesTableViewController: UITableViewController {
          }
          let managedContext = appDelegate.persistentContainer.viewContext
          managedContext.delete(self.notes[indexPath.row])
+        filteredNotes.remove(at: indexPath.row)
          do{
              try managedContext.save()
              loadCoreNotes()
@@ -180,40 +181,40 @@ class NotesTableViewController: UITableViewController {
         
     }
     
-    func notesToBeMoved(index : Int){
-    
-        selectedrows = tableView.indexPathsForSelectedRows!
-        
-        for i in selectedrows!{
-            
-            let move = notes[i.row]
-            //notes[index].notesToCategories = move
-            categories![index].categoriesToNotes = move
-            do{
-                try managedContext.save()
-            }
-            catch{
-                print("error")
-            }
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                        return
-                    }
-                    let managedContext = appDelegate.persistentContainer.viewContext
-                    managedContext.delete(move)
-                    do{
-                        try managedContext.save()
-                        loadCoreNotes()
-                        self.tableView.reloadData()
-                        }
-                        
-                    catch{
-                        print("Failed")
-                    }
-            
-        }
-        loadCoreNotes()
-       
-    }
+//    func notesToBeMoved(index : Int){
+//
+//        selectedrows = tableView.indexPathsForSelectedRows!
+//
+//        for i in selectedrows!{
+//
+//            let move = notes[i.row]
+//            //notes[index].notesToCategories = move
+//            categories![index].categoriesToNotes = move
+//            do{
+//                try managedContext.save()
+//            }
+//            catch{
+//                print("error")
+//            }
+//            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//                        return
+//                    }
+//                    let managedContext = appDelegate.persistentContainer.viewContext
+//                    managedContext.delete(move)
+//                    do{
+//                        try managedContext.save()
+//                        loadCoreNotes()
+//                        self.tableView.reloadData()
+//                        }
+//
+//                    catch{
+//                        print("Failed")
+//                    }
+//
+//        }
+//        loadCoreNotes()
+//
+//    }
 
 }
 

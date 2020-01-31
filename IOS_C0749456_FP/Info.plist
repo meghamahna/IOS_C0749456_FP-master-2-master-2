@@ -61,6 +61,8 @@
 	<string>location is needed while using this app</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>location is needed while using this app</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera is needed for this app</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -41,21 +41,21 @@ class MoveToSubjectViewController: UIViewController, UITableViewDelegate , UITab
             
         }
         
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: " move to \(categories[indexPath.row].name)", message: "Are  you sure", preferredStyle: .alert)
-                                       let cancelAction = UIAlertAction(title: "No", style: .default, handler: nil)
-        let okAction = UIAlertAction(title: "Move", style: .default)
-        { (action) in
-            
-        self.notesDelegate?.notesToBeMoved(index: indexPath.row)
-         self.presentingViewController?.dismiss(animated: true, completion: nil)
-    }
-        
-                                           alert.addAction(okAction)
-                                            alert.addAction(cancelAction)
-                                           self.present(alert, animated: true, completion:  nil)
-                       
-                                   }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let alert = UIAlertController(title: " move to \(categories[indexPath.row].name)", message: "Are  you sure", preferredStyle: .alert)
+//                                       let cancelAction = UIAlertAction(title: "No", style: .default, handler: nil)
+//        let okAction = UIAlertAction(title: "Move", style: .default)
+//        { (action) in
+//
+//        self.notesDelegate?.notesToBeMoved(index: indexPath.row)
+//         self.presentingViewController?.dismiss(animated: true, completion: nil)
+//    }
+//
+//                                           alert.addAction(okAction)
+//                                            alert.addAction(cancelAction)
+//                                           self.present(alert, animated: true, completion:  nil)
+//
+//                                   }
     
     func saveCoreData(name: String)
     {
