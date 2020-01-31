@@ -30,6 +30,8 @@ class NotesTableViewController: UITableViewController {
         loadCoreNotes()
         filteredNotes = notes
         searchBar.delegate = self
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -152,7 +154,7 @@ class NotesTableViewController: UITableViewController {
 
         fetchRequest.predicate = mainCategoryPradicate
         do {
-            notes = try managedContext.fetch(fetchRequest)
+            filteredNotes = try managedContext.fetch(fetchRequest)
             self.tableView.reloadData()
         } catch {
             print("cannot fetch from database")
@@ -176,7 +178,7 @@ class NotesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //tableView.reloadData()
+        tableView.reloadData()
         loadCoreNotes()
         
     }
@@ -215,6 +217,8 @@ class NotesTableViewController: UITableViewController {
 //        loadCoreNotes()
 //
 //    }
+    
+    
 
 }
 

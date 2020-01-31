@@ -39,6 +39,10 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        self.view.addGestureRecognizer(tapGesture)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         findCurrentLocation()
         latitudeLabel.isHidden = true
         longitudeLabel.isHidden = true
@@ -66,6 +70,17 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
         }
 
         // Do any additional setup after loading the view.
+    }
+    @objc func viewTapped(){
+    
+    titletext.resignFirstResponder()
+    
+    }
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        if let controller = viewController as? NotesTableViewController {
+            controller.tableView.reloadData()
+        }
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
@@ -122,6 +137,7 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
                                     self.navigationController?.popViewController(animated: true)
                                     //self.dismiss(animated: true, completion: nil)
                                 }
+        taskTable?.tableView.reloadData()
         
     }
 
@@ -210,6 +226,7 @@ class NotesViewController: UIViewController, UIImagePickerControllerDelegate, UI
         // Pass the selected object to the new view controller.
     }
     */
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         taskTable?.tableView.reloadData()
